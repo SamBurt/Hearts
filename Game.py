@@ -6,7 +6,8 @@ class Game:
 
     def __init__(self):
         self.players = self.create_players()
-        deck = Deck()
+        self.deck = Deck()
+        self.heartBroken = False
 
     def create_players(self):
         players = []
@@ -27,12 +28,31 @@ class Game:
         for player in self.players:
             print(player)
 
-    def playGame(self):
-        
+    def deal_cards(self):
+        self.deck = Deck()
+        num_players = len(self.players)
+        rounds = 52/num_players
+        for i in range(rounds):
+            for player in self.players:
+                card = self.deck.deal_card()
+                player.add_card(card)
+        for player in self.players:
+            player.sort_hand()
+
+    def play_game(self):
+        gameOver = False
+        while not gameOver:
+            print("Dealing Cards")
+            self.deal_cards()
+            # for person in self.players:
+            #     person.print_hand()
+            
+
+            gameOver = True
 
 
 if __name__ == '__main__':
     print("Starting")
     game = Game()
     game.print_players()
-    # game.playGame()
+    game.play_game()

@@ -26,3 +26,9 @@ class Card:
 
     def __repr__(self):
         return self.values[self.value] + " of " + self.suit + "s"
+
+    def __getitem__(self, key):
+        if key == 0:
+            return self.suit
+        elif key == 1:
+            return self.value

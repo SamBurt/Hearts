@@ -26,3 +26,6 @@ class Deck:
     def print_deck(self):
         for card in self.cards:
             print(card)
+
+    def deal_card(self):
+        return self.cards.pop()
