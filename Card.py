@@ -5,18 +5,18 @@ class Card:
     # the high card(14)
 
     values={
-        2:"Two"
-        3:"Three"
-        4:"Four"
-        5:"Five"
-        6:"Six"
-        7:"Seven"
-        8:"Eight"
-        9:"Nine"
-        10:"Ten"
-        11:"Jack"
-        12:"Queen"
-        13:"King"
+        2:"Two",
+        3:"Three",
+        4:"Four",
+        5:"Five",
+        6:"Six",
+        7:"Seven",
+        8:"Eight",
+        9:"Nine",
+        10:"Ten",
+        11:"Jack",
+        12:"Queen",
+        13:"King",
         14:"Ace"
     }
 
@@ -25,4 +25,4 @@ class Card:
         self.value = value
 
     def __repr__(self):
-        return values[self.value] + " of " + self.suit + "s"
+        return self.values[self.value] + " of " + self.suit + "s"
