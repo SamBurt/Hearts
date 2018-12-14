@@ -18,8 +18,12 @@ class Player:
         self.hand.append(card)
 
     def remove_card(self, card):
-        if card in self.hand:
-            self.hand.remove(card)
+        suit = card.suit
+        val = card.value
+        for card in self.hand:
+            if card.value == val and card.suit == suit:
+                self.hand.remove(card)
+                return
         else:
             EnvironmentError()
 

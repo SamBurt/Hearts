@@ -20,12 +20,38 @@ class Card:
         14:"Ace"
     }
 
+    short_val={
+        2:"2",
+        3:"3",
+        4:"4",
+        5:"5",
+        6:"6",
+        7:"7",
+        8:"8",
+        9:"9",
+        10:"10",
+        11:"J",
+        12:"Q",
+        13:"K",
+        14:"A"
+    }
+
+    short_suit={
+        "Heart":"H",
+        "Diamond":"D",
+        "Spade":"S",
+        "Club":"C"
+    }
+
     def __init__(self, suit, value):
         self.suit = suit
         self.value = value
 
+    # def __repr__(self):
+    #     return self.values[self.value] + " of " + self.suit + "s"
+
     def __repr__(self):
-        return self.values[self.value] + " of " + self.suit + "s"
+        return self.short_val[self.value] + self.short_suit[self.suit]
 
     def __getitem__(self, key):
         if key == 0:
