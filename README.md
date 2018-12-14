@@ -1,18 +1,17 @@
 # Hearts
 
-One Paragraph of project description goes here
+A text based version of the classic card game, Hearts. This game is played
+in the terminal and is meant to represent a simple program using python.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+To play this game, start by copying the repo into your local directory. Once
+navigating to the directory in the terminal, use the command 'python Game.py'
+to start the game.
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+* python 2.6
 
 ### Installing
 
@@ -30,7 +29,7 @@ And repeat
 until finished
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+End with an example of getting some data out of the system or using it for a little demos
 
 ## Running the tests
 
@@ -71,11 +70,6 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 ## Authors
 
 * **Sam Burt**
-
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 
