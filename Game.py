@@ -119,6 +119,7 @@ class Game:
         return points
 
     def play_hand(self):
+        self.heartBroken = False
         for i in range(52/len(self.players)):
             cards_played = []
             first_suit = None
@@ -156,9 +157,6 @@ class Game:
             p_gained = self.points_gained(cards_played)
             print(l_player.name + " got the trick and gained " + str(p_gained) + " points")
             print("---- Next Trick ----")
-        print("End of hand, scores --> ")
-        for player in self.players:
-            print(player)
 
 
     def play_game(self):
@@ -169,6 +167,9 @@ class Game:
             #print("Trade Cards")
             #self.trade_cards()
             self.play_hand()
+            print("End of hand, scores --> ")
+            for player in self.players:
+                print(player)
 
             gameOver = True
 
