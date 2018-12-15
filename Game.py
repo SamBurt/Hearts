@@ -3,7 +3,6 @@ from Card import Card
 from Deck import Deck
 from Player import Player
 
-
 class Game:
 
     short_val={
@@ -41,11 +40,15 @@ class Game:
         players = []
         valid = False
         while not valid:
-            self.num_players = int(raw_input("How many people are playing? (2-6) --> "))
+            try:
+                self.num_players = int(raw_input("How many people are playing? (2-6) --> "))
+            except:
+                 print("Not a valid number")
+                 continue
             if ((self.num_players >= 2) and (self.num_players <= 6)):
                 valid = True
             else:
-                print("Number not valid")
+                print("Not a valid number")
         for i in range(self.num_players):
             name = raw_input("What is the name of player " + str(i+1) + "? --> ")
             players.append(Player(name))
@@ -80,9 +83,22 @@ class Game:
             for card in player.hand:
                 print(card, end=" ")
             print("]")
-            # Add function to check if card is valid
             card1_temp = list(raw_input("What is the first card you would like to trade? "))
+            while True:
+                if not player.card_in_hand(card1_temp):
+                    card1_temp = list(raw_input
+                    ("Card not in hand (must be in form \"8D\")"))
+                else:
+                    break
             card2_temp = list(raw_input("What is the second card you would like to trade? "))
+            while True:
+                if not player.card_in_hand(card2_temp):
+                    card2_temp = list(raw_input
+                    ("Card not in hand (must be in form \"8D\")"))
+                else:
+                    break
+            card1_temp = map(lambda x: x.upper(), card1_temp)
+            card2_temp = map(lambda x: x.upper(), card2_temp)
             card1 = Card(self.short_suit[card1_temp[1]], self.short_val[card1_temp[0]])
             card2 = Card(self.short_suit[card2_temp[1]], self.short_val[card2_temp[0]])
             to_trade = [card1, card2]
@@ -120,6 +136,8 @@ class Game:
 
     def play_hand(self):
         self.heartBroken = False
+        for player in self.players:
+            player.point_in_round = 0
         for i in range(52/len(self.players)):
             cards_played = []
             first_suit = None
@@ -130,10 +148,26 @@ class Game:
                 print("Cards played -> ", end="")
                 print(cards_played)
                 card_input = list(raw_input(player.name + "'s turn -> "))
+                card_input = map(lambda x: x.upper(), card_input)
+                while True:
+                    if not player.card_in_hand(card_input):
+                        card_input = list(raw_input
+                        ("Card not in hand, try again (must be in form \"8D\"): "))
+                        card_input = map(lambda x: x.upper(), card_input)
+                    else:
+                        break
                 while True:
                     if first_suit == None:
                         if self.short_suit[card_input[1]] == "Heart" and self.heartBroken == False:
                             card_input = list(raw_input("Try again, Hearts have not been broken -> "))
+                            card_input = map(lambda x: x.upper(), card_input)
+                            while True:
+                                if not player.card_in_hand(card_input):
+                                    card_input = list(raw_input
+                                    ("Card not in hand, try again (must be in form \"8D\"): "))
+                                    card_input = map(lambda x: x.upper(), card_input)
+                                else:
+                                    break
                             continue
                         first_suit = self.short_suit[card_input[1]]
                         break
@@ -148,6 +182,14 @@ class Game:
                     elif first_suit == "Diamond" and player.num_diamonds == 0:
                         break
                     card_input = list(raw_input("Try again, must play same suit -> "))
+                    card_input = map(lambda x: x.upper(), card_input)
+                    while True:
+                        if not player.card_in_hand(card_input):
+                            card_input = list(raw_input
+                            ("Card not in hand, try again (must be in form \"8D\"): "))
+                            card_input = map(lambda x: x.upper(), card_input)
+                        else:
+                            break
                 if self.short_suit[card_input[1]] == "Heart":
                     self.heartBroken = True
                 card = Card(self.short_suit[card_input[1]], self.short_val[card_input[0]])
@@ -155,9 +197,23 @@ class Game:
                 player.remove_card(card)
             l_player = self.losing_player(cards_played, first_suit)
             p_gained = self.points_gained(cards_played)
-            print(l_player.name + " got the trick and gained " + str(p_gained) + " points")
+            l_player.point_in_round += p_gained
+            #print(l_player.name + " got the trick and gained " + str(p_gained) + " points")
+            print(l_player.name + " got the trick")
             print("---- Next Trick ----")
 
+    def calculate_scores(self):
+        shoot_the_moon = False
+        for player in self.players:
+            if player.point_in_round == 26:
+                shoot_the_moon = True
+                break
+        for player in players:
+            if shoot_the_moon:
+                if player.point_in_round != 26:
+                    player.score += 26
+            else:
+                player.score += player.point_in_round
 
     def play_game(self):
         gameOver = False
@@ -165,13 +221,14 @@ class Game:
             #print("Dealing Cards")
             self.deal_cards()
             #print("Trade Cards")
-            #self.trade_cards()
+            self.trade_cards()
             self.play_hand()
+            self.calulate_scores()
             print("End of hand, scores --> ")
             for player in self.players:
+                if player.score >= 100:
+                    gameOver = True
                 print(player)
-
-            gameOver = True
 
 
 if __name__ == '__main__':

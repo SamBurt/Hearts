@@ -3,6 +3,29 @@ from Deck import Deck
 
 class Player:
 
+    short_val={
+        "2":2,
+        "3":3,
+        "4":4,
+        "5":5,
+        "6":6,
+        "7":7,
+        "8":8,
+        "9":9,
+        "10":10,
+        "J":11,
+        "Q":12,
+        "K":13,
+        "A":14
+    }
+
+    short_suit={
+        "H":"Heart",
+        "D":"Diamond",
+        "S":"Spade",
+        "C":"Club"
+    }
+
     def __init__(self, name):
         self.name = name
         self.score = 0
@@ -11,6 +34,7 @@ class Player:
         self.num_spades = 0
         self.num_diamonds = 0
         self.num_clubs = 0
+        self.point_in_round = 0
 
     def __repr__(self):
         return self.name + " has " + str(self.score) + " points"
@@ -46,6 +70,22 @@ class Player:
                 return
         else:
             EnvironmentError()
+
+    def card_in_hand(self, card_string):
+        card = map(lambda x: x.upper(), list(card_string))
+        if card[1] in self.short_suit:
+            suit = self.short_suit[card[1]]
+        else:
+            return False
+        if card[0] in self.short_val:
+            value = self.short_val[card[0]]
+        else:
+            return False
+        for card in self.hand:
+            if card.value == value and card.suit == suit:
+                return True
+        return False
+
 
     def sort_hand(self):
         self.hand = sorted(self.hand, key=lambda card: (card.suit, card.value))
