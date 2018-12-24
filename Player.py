@@ -73,6 +73,9 @@ class Player:
 
     def card_in_hand(self, card_string):
         card = map(lambda x: x.upper(), list(card_string))
+        if len(card) == 3:
+            card[0] = card[0] + card[1]
+            card[1] = card[2]
         if card[1] in self.short_suit:
             suit = self.short_suit[card[1]]
         else:

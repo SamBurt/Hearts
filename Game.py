@@ -99,6 +99,12 @@ class Game:
                     break
             card1_temp = map(lambda x: x.upper(), card1_temp)
             card2_temp = map(lambda x: x.upper(), card2_temp)
+            if len(card1_temp) == 3:
+                card1_temp[0] = card1_temp[0] + card1_temp[1]
+                card1_temp[1] = card1_temp[2]
+            if len(card2_temp) == 3:
+                card2_temp[0] = card2_temp[0] + card2_temp[1]
+                card2_temp[1] = card2_temp[2]
             card1 = Card(self.short_suit[card1_temp[1]], self.short_val[card1_temp[0]])
             card2 = Card(self.short_suit[card2_temp[1]], self.short_val[card2_temp[0]])
             to_trade = [card1, card2]
@@ -156,16 +162,23 @@ class Game:
                         card_input = map(lambda x: x.upper(), card_input)
                     else:
                         break
+                if len(card_input) == 3:
+                    card_input[0] = card_input[0] + card_input[1]
+                    card_input[1] = card_input[2]
                 while True:
                     if first_suit == None:
                         if self.short_suit[card_input[1]] == "Heart" and self.heartBroken == False:
                             card_input = list(raw_input("Try again, Hearts have not been broken -> "))
                             card_input = map(lambda x: x.upper(), card_input)
+                            #Checks if new card selection is in the players hand before checking if it's valid
                             while True:
                                 if not player.card_in_hand(card_input):
                                     card_input = list(raw_input
                                     ("Card not in hand, try again (must be in form \"8D\"): "))
                                     card_input = map(lambda x: x.upper(), card_input)
+                                    if len(card_input) == 3:
+                                        card_input[0] = card_input[0] + card_input[1]
+                                        card_input[1] = card_input[2]
                                 else:
                                     break
                             continue
@@ -188,6 +201,9 @@ class Game:
                             card_input = list(raw_input
                             ("Card not in hand, try again (must be in form \"8D\"): "))
                             card_input = map(lambda x: x.upper(), card_input)
+                            if len(card_input) == 3:
+                                card_input[0] = card_input[0] + card_input[1]
+                                card_input[1] = card_input[2]
                         else:
                             break
                 if self.short_suit[card_input[1]] == "Heart":
